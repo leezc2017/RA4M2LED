@@ -1,19 +1,42 @@
 # ============================================================================
 # RA4M2LED (RA4M2 100PIN LED 示例) .gitignore
 #
-# 本工程仍是上游 FSP 3.2.0 状态，Debug/makefile 指向已不存在的
-# C:\Renesas\RA\e2studio_v2021-07_fsp_v3.2.0（GCC 9_2020q2），
-# 本机无法复现构建，故 Debug/ 整目录不入库。
+# 原则: 提交"源码 + 可复现的构建描述 + 配置"，不提交"产物 + IDE 本地状态"
 # ============================================================================
 
 # ---- 构建产物 ----
-Debug/
+# 注意：Debug/ 目录本身【不】整体忽略。其中的构建描述文件——
+#   makefile / makefile.init / sources.mk / objects.mk / */subdir.mk
+#   fsp_gen.ld / memory_regions.ld / bsp_linker_info.h
+# 已入库，路径为相对路径，新克隆的工程无需打开 e2studio 即可 make。
+Debug/*.elf
+Debug/*.hex
+Debug/*.srec
+Debug/*.map
+Debug/*.rpd
+Debug/*.sbd
+Debug/*.siz
+Debug/*.in
+Debug/*.tmp
+Debug/clean_file.tmp
+Debug/compile_commands.json
+Debug/**/*.o
+Debug/**/*.d
+*.o
+*.d
+*.in
+*.elf
+*.hex
+*.srec
+*.map
+*.rpd
+*.sbd
 
 # ---- 日志 / 临时数据 ----
 *.log
 *.bak
 
-# ---- e2studio / Eclipse 本地状态 ----
+# ---- e2studio / Eclipse 本地状态（含本机绝对路径，不提交）----
 .settings/
 metadata/
 *.launch
@@ -32,8 +55,8 @@ desktop.ini
 
 # ============================================================================
 # 以下【刻意提交】，不要加进忽略：
-#   ra/                  FSP 3.2 库与 CMSIS
-#   ra_gen/              RASC 生成代码
+#   ra/                  FSP 6.6 库与 CMSIS_6
+#   ra_gen/              RASC 生成代码（hal_data / pin_data / vector_data）
 #   ra_cfg/ + ra_cfg.txt FSP 配置参数
 #   script/fsp.ld        链接脚本
 #   .project / .cproject / configuration.xml   e2studio 工程文件
